@@ -3,6 +3,7 @@ import { LitElement, html, css } from 'lit';
 import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import "./tv-channel.js";
+import "@lrnwebcomponents/video-player/video-player.js";
 
 export class TvApp extends LitElement {
   // defaults
@@ -29,45 +30,100 @@ export class TvApp extends LitElement {
     return [
       css`
       :host {
-        display: block;
+
+      }
+
+      .conatiner {
+        display: grid;
+        grid-template-columns: repeat(2, 500px);
+        grid-template-rows: auto;
+        gap: 25px;
+      }
+
+      .container .tvandinfo {
+        display: grid;
+        grid-template-columns: repeat(1, 600px);
+        grid-template-rows: repeat(2, px); 
+        gap: 25px;
+        grid-column: 1; 
+        grid-row: 1;
+      }
+
+      .container .guide { 
+        display: grid; 
+        grid-template-columns: repeat(1, 700px);
+        grid-template-rows: repeat(2, 250px);
+        grid-column: 2;
+        grid-row: 2;
+
+      }
+      
+      tv-channel {
+        grid-column: 2; 
+        grid-row-start: auto;
+      }
+
+      video-player {
+        width: 640px; 
+        height: 360px;
+        grid-column: 1;
+        grid-row: 2;
         margin: 16px;
         padding: 16px;
       }
+
+      h2 {
+        grid-column: 1; 
+        grid-row: 1; 
+        padding-left: 32px; 
+ 
+      }
+
       `
     ];
   }
   // LitElement rendering template of your element
   render() {
     return html`
-      <h2>${this.name}</h2>
-      ${
-        this.listings.map(
-          (item) => html`
-            <tv-channel 
-              title="${item.title}"
-              presenter="${item.metadata.author}"
-              @click="${this.itemClick}"
-            >
-            </tv-channel>
+       <!-- video -->
+       <div class="container"> 
+          <div class="tvandinfo"> 
+            <h2>${this.name}</h2>
+            <video-player source="https://www.youtube.com/watch?v=LrS7dqokTLE" accent-color="blue" dark track="https://haxtheweb.org/files/HAXshort.vtt">
+            </video-player>
+          </div>  
+
+        <div class="guide"> 
+            ${
+            this.listings.map(
+              (item) => html`
+                  <tv-channel 
+                  title="${item.title}"
+                  presenter="${item.metadata.author}"
+                  @click="${this.itemClick}">
+                </tv-channel>
           `
-        )
-      }
+            )
+            }
+          </div>
+
       <div>
-        <!-- video -->
         <!-- discord / chat - optional -->
       </div>
+
       <!-- dialog -->
-      <sl-dialog label="Dialog" class="dialog">
+      <!-- <sl-dialog label="Dialog" class="dialog">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         <sl-button slot="footer" variant="primary" @click="${this.closeDialog}">Close</sl-button>
-      </sl-dialog>
+      </sl-dialog> -->
+    </div>
     `;
   }
 
-  closeDialog(e) {
-    const dialog = this.shadowRoot.querySelector('.dialog');
-    dialog.hide();
-  }
+  // closeDialog(e) {
+  //   const dialog = this.shadowRoot.querySelector('.dialog');
+  //   dialog.hide();
+  // }
 
   itemClick(e) {
     console.log(e.target);

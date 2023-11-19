@@ -19,14 +19,31 @@
     tv-channel {
       margin: 100px;
     }
+
+    /* .container { 
+      grid-template-columns: repeat(1,500px);
+      grid-template-rows: repeat(2,300px);
+      gap: 100px;
+    }
+
+    .container h3 {
+      grid-column: 1;
+      grid-row: 5; 
+      margin: 16px;
+      padding: 16px;
+    } */
+
+
   </style>
   <title>tv-station</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/themes/light.css" />
 </head>
 
 <body>
-  <tv-app name="HAX:TV"></tv-app>
-  <h3>Demo of each element by itself</h3>
+  <div class="container">
+    <tv-app name="HAX:TV"></tv-app>
+    <h3>Demo of each element by itself</h3>
+  </div>
   <tv-channel title="HAX: Wordpress Killer" presenter="Bryan Ollendyke">
     <p>HAX is a visual web builder for producing content in a “forever” format known as HTML, 
       with a wrinkle. Imagine being able to reprogram the <strong>strong</strong> tag. While silly, this would 
@@ -37,6 +54,7 @@
       load faster, and are easier to use by students with 0 additional effort by faculty or staff.
     </p>
   </tv-channel>
+
   <script type="module">
     import "./src/tv-app.js";
     import "./src/tv-channel.js";
