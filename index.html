@@ -16,22 +16,13 @@
       background-color: white;
       color: black;
     }
-    tv-channel {
-      margin: 100px;
+    tv-app {
+      display: grid;
+      gap: 10px;
+      margin-left: 200px;
+      width: 1550px;
     }
 
-    /* .container { 
-      grid-template-columns: repeat(1,500px);
-      grid-template-rows: repeat(2,300px);
-      gap: 100px;
-    }
-
-    .container h3 {
-      grid-column: 1;
-      grid-row: 5; 
-      margin: 16px;
-      padding: 16px;
-    } */
 
 
   </style>
@@ -40,21 +31,8 @@
 </head>
 
 <body>
-  <div class="container">
-    <tv-app name="HAX:TV"></tv-app>
-    <h3>Demo of each element by itself</h3>
-  </div>
-  <tv-channel title="HAX: Wordpress Killer" presenter="Bryan Ollendyke">
-    <p>HAX is a visual web builder for producing content in a “forever” format known as HTML, 
-      with a wrinkle. Imagine being able to reprogram the <strong>strong</strong> tag. While silly, this would 
-      fundamentally change the way you build and develop everything on the web. When we describe HTML as 
-      forever, it’s because the HAX platform is literally a <strong>h-a-x</strong> tag in the browser that we can reprogram 
-      after initial implementation. This means courses written in HAX 5 years ago, never touched by faculty,
-      leveraging advanced JS and CSS yet never known about by faculty, are more accessible, higher in usability,
-      load faster, and are easier to use by students with 0 additional effort by faculty or staff.
-    </p>
-  </tv-channel>
-
+    <tv-app name="Cnext Top 10 Movies of 2023"></tv-app>
+    
   <script type="module">
     import "./src/tv-app.js";
     import "./src/tv-channel.js";

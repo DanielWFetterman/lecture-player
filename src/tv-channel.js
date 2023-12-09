@@ -6,6 +6,7 @@ export class TvChannel extends LitElement {
   constructor() {
     super();
     this.title = '';
+    this.description = '';
     this.presenter = '';
   }
   // convention I enjoy using to define the tag's name
@@ -16,18 +17,21 @@ export class TvChannel extends LitElement {
   static get properties() {
     return {
       title: { type: String },
+      description: { type: String },
       presenter: { type: String },
+      timecode: { type: Number }
     };
   }
   // LitElement convention for applying styles JUST to our element
   static get styles() {
     return css`
       :host {
-        display: inline-flex;
+       
       }
       .wrapper {
-        padding: 16px;
+        padding: 5px;
         background-color: #eeeeee;
+        margin-top: 12px;
       }
     `;
   }
@@ -36,6 +40,7 @@ export class TvChannel extends LitElement {
     return html`
       <div class="wrapper">
         <h3>${this.title}</h3>
+        <h3>${this.description}</h3>
         <h4>${this.presenter}</h4>
         <slot></slot>
       </div>  

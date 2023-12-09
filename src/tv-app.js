@@ -30,53 +30,32 @@ export class TvApp extends LitElement {
     return [
       css`
       :host {
+        display: grid; 
 
       }
 
-      .conatiner {
+      .container {
         display: grid;
-        grid-template-columns: repeat(2, 500px);
-        grid-template-rows: auto;
-        gap: 25px;
+        grid-template-columns: repeat(2, 860px);
       }
 
       .container .tvandinfo {
-        display: grid;
-        grid-template-columns: repeat(1, 600px);
-        grid-template-rows: repeat(2, px); 
-        gap: 25px;
-        grid-column: 1; 
-        grid-row: 1;
+        grid-column: 1;
+        margin-top: 30px;
+        width: 854px;
+        height: 480px;
       }
 
       .container .guide { 
-        display: grid; 
-        grid-template-columns: repeat(1, 700px);
-        grid-template-rows: repeat(2, 250px);
         grid-column: 2;
-        grid-row: 2;
-
-      }
-      
-      tv-channel {
-        grid-column: 2; 
-        grid-row-start: auto;
-      }
-
-      video-player {
-        width: 640px; 
-        height: 360px;
-        grid-column: 1;
-        grid-row: 2;
-        margin: 16px;
-        padding: 16px;
-      }
-
-      h2 {
-        grid-column: 1; 
-        grid-row: 1; 
-        padding-left: 32px; 
- 
+        width: 300px;
+        font-size: .94rem;
+        margin-top: 90px;
+        padding-left: 10px;
+        text-align: center;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
+        height: 77.5vh;
       }
 
       `
@@ -86,26 +65,31 @@ export class TvApp extends LitElement {
   render() {
     return html`
        <!-- video -->
-       <div class="container"> 
-          <div class="tvandinfo"> 
-            <h2>${this.name}</h2>
-            <video-player source="https://www.youtube.com/watch?v=LrS7dqokTLE" accent-color="blue" dark track="https://haxtheweb.org/files/HAXshort.vtt">
-            </video-player>
-          </div>  
+      <div class="container"> 
+        <div class="tvandinfo"> 
+          <h2>${this.name}</h2>
+            <video-player source="https://www.youtube.com/watch?v=6mexBBaLkZ0" accent-color="blue" dark track="https://haxtheweb.org/files/HAXshort.vtt"></video-player>
+            <tv-channel title="Cnext Top 10 Movies of 2023" presenter="Cnext.com">
+              All the best Films that made the top tens list of 2023
+            </tv-channel>
+        </div>
 
         <div class="guide"> 
-            ${
+         ${
             this.listings.map(
-              (item) => html`
+              (item, index) => html`
                   <tv-channel 
                   title="${item.title}"
+                  description="${item.description}"
                   presenter="${item.metadata.author}"
-                  @click="${this.itemClick}">
+                  @click="${this.itemClick}"
+                  timecode= "${item.metadata.timecode}">
+                  
                 </tv-channel>
-          `
+              `
             )
-            }
-          </div>
+        }
+        </div>
 
       <div>
         <!-- discord / chat - optional -->
@@ -127,8 +111,13 @@ export class TvApp extends LitElement {
 
   itemClick(e) {
     console.log(e.target);
-    const dialog = this.shadowRoot.querySelector('.dialog');
-    dialog.show();
+    // this will give you the current time so that you can progress what's active based on it playing
+    this.shadowRoot.querySelector('video-player').shadowRoot.querySelector("a11y-media-player").media.currentTime
+    // this forces the video to play
+    this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player').play()
+    // this forces the video to jump to this point in the video via SECONDS
+    this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player').seek(e.target.timecode)
+
   }
 
   // LitElement life cycle for when any property changes
