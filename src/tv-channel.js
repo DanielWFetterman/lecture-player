@@ -6,8 +6,9 @@ export class TvChannel extends LitElement {
   constructor() {
     super();
     this.title = '';
-    this.description = '';
+    this.timecode = 0;
     this.presenter = '';
+    this.description = '';
   }
   // convention I enjoy using to define the tag's name
   static get tag() {
@@ -19,19 +20,35 @@ export class TvChannel extends LitElement {
       title: { type: String },
       description: { type: String },
       presenter: { type: String },
-      timecode: { type: Number }
+      timecode: { type: Number },
+      thumbnail: {type: String},
+      activeColor: {type: Boolean, reflect: true},
     };
   }
   // LitElement convention for applying styles JUST to our element
   static get styles() {
     return css`
-      :host {
-       
+
+      .thumbnail {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+        object-fit: cover;
       }
+
+      :host([activeColor]) {
+        background-color: #007bff;
+      }
+
+
       .wrapper {
         padding: 5px;
         background-color: #eeeeee;
         margin-top: 12px;
+      }
+
+      .wrapper h3 { 
+        align-items: left; 
       }
     `;
   }
@@ -39,9 +56,9 @@ export class TvChannel extends LitElement {
   render() {
     return html`
       <div class="wrapper">
+      <img class="thumbnail" src="${this.thumbnail}">
         <h3>${this.title}</h3>
         <h3>${this.description}</h3>
-        <h4>${this.presenter}</h4>
         <slot></slot>
       </div>  
       `;
