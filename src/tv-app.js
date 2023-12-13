@@ -6,6 +6,16 @@ import "./tv-channel.js";
 import "@lrnwebcomponents/video-player/video-player.js";
 
 export class TvApp extends LitElement {
+  // LitElement convention so we update render() when values change
+  static get properties() {
+    return {
+      name: { type: String },
+      source: { type: String },
+      listings: { type: Array },
+      activeIndex: { type: Number },
+    };
+  }
+
   // defaults
   constructor() {
     super();
@@ -19,15 +29,7 @@ export class TvApp extends LitElement {
   static get tag() {
     return 'tv-app';
   }
-  // LitElement convention so we update render() when values change
-  static get properties() {
-    return {
-      name: { type: String },
-      source: { type: String },
-      listings: { type: Array },
-      activeIndex: { type: Number }
-    };
-  }
+  
   // LitElement convention for applying styles JUST to our element
   static get styles() {
     return [
@@ -107,20 +109,15 @@ export class TvApp extends LitElement {
           <h2>${this.name}</h2>
           <video-player source="https://www.youtube.com/watch?v=6mexBBaLkZ0" accent-color="blue" dark track="https://haxtheweb.org/files/HAXshort.vtt"></video-player>
           <h2>Cnext Top 10 Movies of 2023 </h2>
-            <!-- <tv-channel title="Cnext Top 10 Movies of 2023" presenter="Cnext.com">
-              All the best Films that made the top tens list of 2023
-            </tv-channel> -->
           <div class="description-box">
-
             ${this.listings.length > 0 ? this.listings[this.activeIndex].description : ''}
-
           </div>
         </div>
 
-          <div class="buttons">
-            <button class="prev-btn" @click="${this.prev}"> Previous </button>
-            <button class="next-btn" @click="${this.next}"> Next </button>
-           </div>
+        <div class="buttons">
+          <button class="prev-btn" @click="${this.prev}"> Previous </button>
+          <button class="next-btn" @click="${this.next}"> Next </button>
+        </div>
         <div class="guide"> 
          ${this.listings.map((item, index) => html`
                 <tv-channel
@@ -133,8 +130,8 @@ export class TvApp extends LitElement {
                   thumbnail="${item.metadata.thumbnail}">
                   
                 </tv-channel> `)}
-          </div>
-    </div>
+        </div>
+      </div>
     `;
   }
 
@@ -160,6 +157,7 @@ export class TvApp extends LitElement {
       if(propName === "activeIndex") {
         console.log(this.shadowRoot.querySelectorAll("tv-channel"));
         console.log(this.activeIndex)
+      
 
         var activeChannel = this.shadowRoot.querySelector("tv-channel[index = '" + this.activeIndex + "' ] ");
        
@@ -183,13 +181,19 @@ export class TvApp extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    setInterval(() => { 
-      const currentTime = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player').media.currentTime; 
-      if(this.activeIndex + 1 < this.listings.length && 
-          currentTime >= this.listings[this.activeIndex + 1].metadata.timecode) { 
-        this.activeIndex++;
+    setInterval(() => {
+      if(this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player')){
+        const currentTime = this.shadowRoot.querySelector('video-player').shadowRoot.querySelector('a11y-media-player').media.currentTime;
+        var newIndex = 0;
+        this.listings.map((item, index)=> {
+          if(item.metadata.timecode <= currentTime) {
+            newIndex = index;
+          }
+        });
+        this.activeIndex = newIndex;
       }
-    }, 1000); 
+  },1000);
+
 
   }
 

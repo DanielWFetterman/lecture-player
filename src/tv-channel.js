@@ -22,7 +22,7 @@ export class TvChannel extends LitElement {
       presenter: { type: String },
       timecode: { type: Number },
       thumbnail: {type: String},
-      activeColor: {type: Boolean, reflect: true},
+      active: {type: Boolean, reflect: true},
     };
   }
   // LitElement convention for applying styles JUST to our element
@@ -36,7 +36,7 @@ export class TvChannel extends LitElement {
         object-fit: cover;
       }
 
-      :host([activeColor]) {
+      :host([active]) {
         background-color: #007bff;
       }
 
